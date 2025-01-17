@@ -10,8 +10,11 @@
 
 .weather img {
   margin-top: 0rem;
-  max-width: 100%;
-  height: auto;
+  max-width: 70%;
+  height: 60%;
+  margin-top: 6rem;
+  margin-left: 2rem;
+
 }
 
 .weather-app {
@@ -151,4 +154,4 @@
   color: #2f2e57;
 }
 
-/* time 44-31 */
+/* time 53-26 */
