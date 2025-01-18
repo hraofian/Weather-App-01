@@ -52,7 +52,7 @@ function WeatherApp() {
     ? weatherImages[data.weather[0].main]
     : null;
 
-  const backgroundImages:any = {
+  const backgroundImages: any = {
     Clear: "linear-gradient(to top, #f3b07c, #fcd283)",
     Clouds: "linear-gradient(to top, #57d6d4, #71eeec)",
     Rain: "linear-gradient(to top, #5bc8fb, #80eaff)",
@@ -65,16 +65,36 @@ function WeatherApp() {
     ? backgroundImages[data.weather[0].main]
     : "linear-gradient(to top, #f3b07c, #fcd283)";
 
+  const currentDate = new Date();
 
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-
-    
+  const mounths = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const dayOfWeek = daysOfWeek[currentDate.getDay()];
   return (
-    <div className="container" style={{backgroundImage}}>
-      <div className="weather-app" style={{backgroundImage:
-      backgroundImage && backgroundImage.replace ?
-      backgroundImage.replace("to right" , "to top") : null
-      }}>
+    <div className="container" style={{ backgroundImage }}>
+      <div
+        className="weather-app"
+        style={{
+          backgroundImage:
+            backgroundImage && backgroundImage.replace
+              ? backgroundImage.replace("to right", "to top")
+              : null,
+        }}
+      >
         <div className="search">
           <div className="search-top">
             <i className="fa-solid fa-location-dot"></i>
@@ -129,4 +149,4 @@ function WeatherApp() {
 
 export default WeatherApp;
 
-// time 1:08
+// time 1:18
