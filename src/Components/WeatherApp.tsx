@@ -52,9 +52,29 @@ function WeatherApp() {
     ? weatherImages[data.weather[0].main]
     : null;
 
+  const backgroundImages:any = {
+    Clear: "linear-gradient(to top, #f3b07c, #fcd283)",
+    Clouds: "linear-gradient(to top, #57d6d4, #71eeec)",
+    Rain: "linear-gradient(to top, #5bc8fb, #80eaff)",
+    Snow: "linear-gradient(to top, #aff2ff, #fff)",
+    Haze: "linear-gradient(to top, #57d6d4, #71eeec)",
+    Mist: "linear-gradient(to top, #57d6d4, #71eeec)",
+  };
+
+  const backgroundImage = data.weather
+    ? backgroundImages[data.weather[0].main]
+    : "linear-gradient(to top, #f3b07c, #fcd283)";
+
+
+
+
+    
   return (
-    <div className="container">
-      <div className="weather-app">
+    <div className="container" style={{backgroundImage}}>
+      <div className="weather-app" style={{backgroundImage:
+      backgroundImage && backgroundImage.replace ?
+      backgroundImage.replace("to right" , "to top") : null
+      }}>
         <div className="search">
           <div className="search-top">
             <i className="fa-solid fa-location-dot"></i>
@@ -109,4 +129,4 @@ function WeatherApp() {
 
 export default WeatherApp;
 
-// time 1:01
+// time 1:08
