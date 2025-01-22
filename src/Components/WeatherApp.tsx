@@ -2,11 +2,13 @@ import sunny from "../assets/images/sunny.png";
 import rainy from "../assets/images/rainy.png";
 import cloudy from "../assets/images/cloudy.png";
 import snowy from "../assets/images/snowy.png";
+import loadingGif from "../assets/images/loadingGif.gif";
 import { useState, useEffect } from "react";
 
 function WeatherApp() {
   const [data, setData] = useState<any>({});
   const [location, setLocation] = useState("");
+  const [loading , setLoading]= useState(false)
   const api_key = "2f67b064f0bdae5b0706fbd8844961cf";
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocation(e.target.value);
@@ -14,11 +16,13 @@ function WeatherApp() {
 
   useEffect(() => {
     const fetchDefaultWeather = async () => {
+      setLoading(true)
       const defaultLocation = "bushehr";
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${defaultLocation}&units=Metric&appid=${api_key}`;
       const res = await fetch(url);
       const defaultData = await res.json();
       setData(defaultData);
+      setLoading(false)
     };
     fetchDefaultWeather();
   }, []);
@@ -28,9 +32,14 @@ function WeatherApp() {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=Metric&appid=${api_key}`;
       const res = await fetch(url);
       const searchData = await res.json();
-      console.log(searchData);
-      setData(searchData);
-      setLocation("");
+      if (searchData.cod !== 200) {
+        setData({ notFound: true });
+      } else {
+        // console.log(searchData);
+        setData(searchData);
+        setLocation("");
+      }
+      setLoading(false)
     }
   };
 
@@ -69,7 +78,7 @@ function WeatherApp() {
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  const mounths = [
+  const months = [
     "Jan",
     "Feb",
     "Mar",
@@ -84,6 +93,11 @@ function WeatherApp() {
     "Dec",
   ];
   const dayOfWeek = daysOfWeek[currentDate.getDay()];
+  const month = months[currentDate.getMonth()];
+  const dayOfMonth = currentDate.getDate();
+
+  const formatedDate = `${dayOfWeek},${dayOfMonth},${month}`;
+
   return (
     <div className="container" style={{ backgroundImage }}>
       <div
@@ -114,34 +128,44 @@ function WeatherApp() {
             <i className="fa solid fa-magnifying-glass" onClick={search}></i>
           </div>
         </div>
-        <div className="weather">
-          <img src={weatherImage} alt="" />
-          <div className="weather-type">
-            {data.weather ? data.weather[0].main : null}
-          </div>
-          <div className="temp">
-            {data.main ? `${Math.floor(data.main.temp)}°` : null}
-          </div>
-        </div>
-        <div className="weather-date">
-          <p>Fri, 3 May</p>
-        </div>
-        <div className="weather-data">
-          <div className="humidity">
-            <div className="data-name">Humidity</div>
-            <i className="fa-solid fa-droplet"></i>
-            <div className="data">
-              {data.main ? `${data.main.humidity} %` : null}
+        {loading ? 
+        (<img className="loader" 
+          src={loadingGif} 
+          alt="loading"/>
+        ) : data.notFound ? (
+          <div className="not-found"> not found</div>
+        ) : (
+          <>
+            <div className="weather">
+              <img src={weatherImage} alt="" />
+              <div className="weather-type">
+                {data.weather ? data.weather[0].main : null}
+              </div>
+              <div className="temp">
+                {data.main ? `${Math.floor(data.main.temp)}°` : null}
+              </div>
             </div>
-          </div>
-          <div className="wind">
-            <div className="data-name">Wind</div>
-            <i className="fa-solid fa-wind"></i>
-            <div className="data">
-              {data.wind ? `${Math.floor(data.wind.speed)} km/h` : null}{" "}
+            <div className="weather-date">
+              <p>{formatedDate}</p>
             </div>
-          </div>
-        </div>
+            <div className="weather-data">
+              <div className="humidity">
+                <div className="data-name">Humidity</div>
+                <i className="fa-solid fa-droplet"></i>
+                <div className="data">
+                  {data.main ? `${data.main.humidity} %` : null}
+                </div>
+              </div>
+              <div className="wind">
+                <div className="data-name">Wind</div>
+                <i className="fa-solid fa-wind"></i>
+                <div className="data">
+                  {data.wind ? `${Math.floor(data.wind.speed)}` : null}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
