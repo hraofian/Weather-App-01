@@ -1,8 +1,8 @@
 {
   "name": "weather-app-01",
+  "homepage": "https://hraofian.github.io/Weather-App-01",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://hraofian.github.io/Weather-App-01",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -30,4 +30,4 @@
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5"
   }
-} 
+}
